@@ -13,7 +13,19 @@ The project is being developed as a practical way to learn Java, Spring Boot, da
 * Search and filter applications
 * View application statistics
 * User registration and authentication
+## Application workflow
 
+```mermaid
+stateDiagram-v2
+    [*] --> SAVED
+    SAVED --> APPLIED : Resume submitted
+    APPLIED --> INTERVIEW : Interview invitation
+    APPLIED --> REJECTED : Rejection
+    INTERVIEW --> OFFER : Job offer
+    INTERVIEW --> REJECTED : Rejection
+    OFFER --> [*]
+    REJECTED --> [*]
+```
 ## Application Statuses
 
 * `SAVED`
@@ -42,3 +54,4 @@ The following technologies will be added during development:
 ## Project Status
 
 The project is currently under development.
+![img.png](img.png)
