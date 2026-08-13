@@ -1,5 +1,6 @@
 package com.natallia.jobtrack_api.service;
 
+import com.natallia.jobtrack_api.exception.DuplicateResourceException;
 import com.natallia.jobtrack_api.exception.ResourceNotFoundException;
 import com.natallia.jobtrack_api.model.Position;
 import com.natallia.jobtrack_api.repository.PositionRepository;
@@ -26,6 +27,9 @@ public class PositionService {
     }
 
     public Position savePosition(Position position) {
+        if (positionRepository.existsByTitleNameIgnoreCase(position.getTitleName())){
+            throw new DuplicateResourceException("Position already exists: " + position.getTitleName());
+        }
         return positionRepository.save(position);
     }
 

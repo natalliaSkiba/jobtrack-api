@@ -10,4 +10,5 @@ import java.util.List;
 public interface PositionRepository extends JpaRepository<Position,Long> {
 
      List<Position> findByTitleNameContainingIgnoreCase(String titleName);
+     boolean existsByTitleNameIgnoreCase(String titleName);
 }

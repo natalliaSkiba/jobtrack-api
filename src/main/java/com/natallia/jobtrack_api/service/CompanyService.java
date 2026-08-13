@@ -1,5 +1,6 @@
 package com.natallia.jobtrack_api.service;
 
+import com.natallia.jobtrack_api.exception.DuplicateResourceException;
 import com.natallia.jobtrack_api.exception.ResourceNotFoundException;
 import com.natallia.jobtrack_api.model.Company;
 import com.natallia.jobtrack_api.repository.CompanyRepository;
@@ -22,6 +23,9 @@ public class CompanyService {
     }
 
     public Company saveCompany(Company company) {
+        if (companyRepository.existsByNameIgnoreCase(company.getName())){
+            throw new DuplicateResourceException("Company already exists " + company.getName());
+        }
         return companyRepository.save(company);
     }
 
