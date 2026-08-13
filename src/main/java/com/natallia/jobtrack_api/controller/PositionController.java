@@ -21,6 +21,11 @@ public class PositionController {
         return ResponseEntity.ok(positionService.getPositionById(id));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Position>> getPositionsByNameContainingIgnoreCase(@RequestParam String titleName){
+        return ResponseEntity.ok(positionService.getPositionsByNameContainingIgnoreCase(titleName));
+    }
+
     @GetMapping
     public ResponseEntity<List<Position>> getAllPositions() {
         return ResponseEntity.ok(positionService.getAllPositions());

@@ -2,9 +2,10 @@ package com.natallia.jobtrack_api.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -44,13 +45,13 @@ public class Job {
     @NotNull
     private ContractType contractType;
 
-    @Column(name = "salary_min")
-    @Positive
-    private Double salaryMin;
+    @Column(name = "salary_min", precision = 12, scale = 2)
+    @PositiveOrZero(message = "Salary cannot be negative")
+    private BigDecimal salaryMin;
 
-    @Column(name = "salary_max")
-    @Positive
-    private Double salaryMax;
+    @Column(name = "salary_max", precision = 12,scale = 2)
+    @PositiveOrZero(message = "Salary cannot be negative")
+    private BigDecimal salaryMax;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -62,5 +63,4 @@ public class Job {
 
     @Column(name = "notes")
     private String notes;
-
 }

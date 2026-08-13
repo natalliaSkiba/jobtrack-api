@@ -29,4 +29,8 @@ public class CompanyService {
         getCompanyById(id);
         companyRepository.deleteById(id);
     }
+    public List<Company> getCompaniesByNameContainingIgnoreCase(String name){
+        return companyRepository.findByNameContainingIgnoreCase(name);
+    }
+
 }

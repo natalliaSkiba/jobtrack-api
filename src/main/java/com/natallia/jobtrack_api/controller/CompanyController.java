@@ -21,6 +21,11 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.getCompanyById(id));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Company>> getCompaniesByNameContainingIgnoreCase(@RequestParam String name){
+        return ResponseEntity.ok(companyService.getCompaniesByNameContainingIgnoreCase(name));
+    }
+
     @GetMapping
     public ResponseEntity<List<Company>> getAllCompanies() {
         return ResponseEntity.ok(companyService.getAllCompanies());

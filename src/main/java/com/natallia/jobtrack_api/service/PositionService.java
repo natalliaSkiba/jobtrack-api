@@ -17,6 +17,10 @@ public class PositionService {
         return positionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Position is not found with id " + id));
     }
 
+    public List<Position> getPositionsByNameContainingIgnoreCase(String titleName){
+        return positionRepository.findByTitleNameContainingIgnoreCase(titleName);
+    }
+
     public List<Position> getAllPositions() {
         return positionRepository.findAll();
     }

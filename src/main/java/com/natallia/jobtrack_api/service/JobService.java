@@ -1,5 +1,6 @@
 package com.natallia.jobtrack_api.service;
 
+import com.natallia.jobtrack_api.exception.InvalidSalaryRangeException;
 import com.natallia.jobtrack_api.exception.ResourceNotFoundException;
 import com.natallia.jobtrack_api.model.Job;
 import com.natallia.jobtrack_api.repository.JobRepository;
@@ -17,11 +18,28 @@ public class JobService {
         return jobRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Job is not found with id: " + id));
     }
 
+    public List<Job> getJobsByCityContainingIgnoreCase(String city) {
+        return jobRepository.findByCityContainingIgnoreCase(city);
+    }
+
+    public List<Job> getJobsByCompanyNameContainingIgnoreCase(String companyName) {
+        return jobRepository.findByCompany_NameContainingIgnoreCase(companyName);
+    }
+
+    public List<Job> getJobsByPositionTitleNameContainingIgnoreCase(String positionTitleName) {
+        return jobRepository.findByPosition_TitleNameContainingIgnoreCase(positionTitleName);
+    }
+
     public List<Job> getAllJobs() {
         return jobRepository.findAll();
     }
 
     public Job saveJob(Job job) {
+        if (job.getSalaryMin() != null
+                && job.getSalaryMax() != null
+                && job.getSalaryMin().compareTo(job.getSalaryMax()) > 0) {
+            throw new InvalidSalaryRangeException("Salary max cannot be less than salary min");
+        }
         return jobRepository.save(job);
     }
 
