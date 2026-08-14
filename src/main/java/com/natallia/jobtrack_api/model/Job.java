@@ -59,7 +59,7 @@ public class Job {
     private ApplicationStatus status;
 
     @Column(name = "applied_at")
-    private LocalDate appliedAt;
+    private LocalDate appliedDate;
 
     @Column(name = "notes")
     private String notes;

@@ -1,5 +1,6 @@
 package com.natallia.jobtrack_api.controller;
 
+import com.natallia.jobtrack_api.dto.JobCreateRequest;
 import com.natallia.jobtrack_api.model.Job;
 import com.natallia.jobtrack_api.service.JobService;
 import jakarta.validation.Valid;
@@ -42,8 +43,8 @@ public class JobController {
     }
 
     @PostMapping()
-    public ResponseEntity<Job> createJob(@Valid @RequestBody Job job){
-        return ResponseEntity.status(HttpStatus.CREATED).body(jobService.saveJob(job));
+    public ResponseEntity<Job> createJob(@Valid @RequestBody JobCreateRequest request){
+        return ResponseEntity.status(HttpStatus.CREATED).body(jobService.saveJob(request));
     }
 
     @DeleteMapping("/{id}")
