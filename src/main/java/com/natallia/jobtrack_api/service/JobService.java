@@ -1,8 +1,10 @@
 package com.natallia.jobtrack_api.service;
 
 import com.natallia.jobtrack_api.dto.JobCreateRequest;
+import com.natallia.jobtrack_api.dto.JobResponse;
 import com.natallia.jobtrack_api.exception.InvalidSalaryRangeException;
 import com.natallia.jobtrack_api.exception.ResourceNotFoundException;
+import com.natallia.jobtrack_api.mapper.JobMapper;
 import com.natallia.jobtrack_api.model.ApplicationStatus;
 import com.natallia.jobtrack_api.model.Company;
 import com.natallia.jobtrack_api.model.Job;
@@ -19,6 +21,7 @@ public class JobService {
     private final JobRepository jobRepository;
     private final CompanyService companyService;
     private final PositionService positionService;
+    private final JobMapper jobMapper;
 
     public Job getJobById(Long id) {
         return jobRepository.findById(id).orElseThrow(() ->
@@ -41,7 +44,7 @@ public class JobService {
         return jobRepository.findAll();
     }
 
-    public Job saveJob(JobCreateRequest request) {
+    public JobResponse saveJob(JobCreateRequest request) {
 
         Position position = positionService.getPositionById(request.getPositionId());
         Company company = companyService.getCompanyById(request.getCompanyId());
@@ -63,7 +66,8 @@ public class JobService {
                 && job.getSalaryMin().compareTo(job.getSalaryMax()) > 0) {
             throw new InvalidSalaryRangeException("Salary max cannot be less than salary min");
         }
-        return jobRepository.save(job);
+        Job savedJob = jobRepository.save(job);
+        return jobMapper.toResponse(savedJob);
     }
 
     public void deleteJobById(Long id) {
