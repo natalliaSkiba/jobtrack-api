@@ -19,27 +19,27 @@ public class JobController {
     private final JobService jobService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Job> getJobById(@PathVariable Long id){
+    public ResponseEntity<JobResponse> getJobById(@PathVariable Long id){
         return ResponseEntity.ok(jobService.getJobById(id));
     }
 
     @GetMapping(value = "/search/city", params = "city")
-    public ResponseEntity<List<Job>> getJobsByCityContainingIgnoreCase(@RequestParam String city){
+    public ResponseEntity<List<JobResponse>> getJobsByCityContainingIgnoreCase(@RequestParam String city){
         return  ResponseEntity.ok(jobService.getJobsByCityContainingIgnoreCase(city));
     }
 
     @GetMapping(value = "/search/company", params = "company")
-    public ResponseEntity<List<Job>> getJobsByCompanyNameContainingIgnoreCase(@RequestParam String company){
+    public ResponseEntity<List<JobResponse>> getJobsByCompanyNameContainingIgnoreCase(@RequestParam String company){
         return  ResponseEntity.ok(jobService.getJobsByCompanyNameContainingIgnoreCase(company));
     }
 
     @GetMapping(value = "/search/position", params = "position")
-    public ResponseEntity<List<Job>> getJobsByPositionTitleNameContainingIgnoreCase(@RequestParam String position){
+    public ResponseEntity<List<JobResponse>> getJobsByPositionTitleNameContainingIgnoreCase(@RequestParam String position){
         return  ResponseEntity.ok(jobService.getJobsByPositionTitleNameContainingIgnoreCase(position));
     }
 
     @GetMapping
-    public ResponseEntity<List<Job>> getAllJobs(){
+    public ResponseEntity<List<JobResponse>> getAllJobs(){
         return ResponseEntity.ok(jobService.getAllJobs());
     }
 

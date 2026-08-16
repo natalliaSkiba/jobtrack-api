@@ -23,25 +23,33 @@ public class JobService {
     private final PositionService positionService;
     private final JobMapper jobMapper;
 
-    public Job getJobById(Long id) {
+    private Job findJobById(Long id) {
         return jobRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Job is not found with id: " + id));
     }
 
-    public List<Job> getJobsByCityContainingIgnoreCase(String city) {
-        return jobRepository.findByCityContainingIgnoreCase(city);
+    private List<JobResponse> mapToResponses(List<Job> jobs) {
+        return jobs.stream().map(jobMapper::toResponse).toList();
     }
 
-    public List<Job> getJobsByCompanyNameContainingIgnoreCase(String companyName) {
-        return jobRepository.findByCompany_NameContainingIgnoreCase(companyName);
+    public JobResponse getJobById(Long id) {
+        return jobMapper.toResponse(findJobById(id));
     }
 
-    public List<Job> getJobsByPositionTitleNameContainingIgnoreCase(String positionTitleName) {
-        return jobRepository.findByPosition_TitleNameContainingIgnoreCase(positionTitleName);
+    public List<JobResponse> getJobsByCityContainingIgnoreCase(String city) {
+        return mapToResponses(jobRepository.findByCityContainingIgnoreCase(city));
     }
 
-    public List<Job> getAllJobs() {
-        return jobRepository.findAll();
+    public List<JobResponse> getJobsByCompanyNameContainingIgnoreCase(String companyName) {
+        return mapToResponses(jobRepository.findByCompany_NameContainingIgnoreCase(companyName));
+    }
+
+    public List<JobResponse> getJobsByPositionTitleNameContainingIgnoreCase(String positionTitleName) {
+        return mapToResponses(jobRepository.findByPosition_TitleNameContainingIgnoreCase(positionTitleName));
+    }
+
+    public List<JobResponse> getAllJobs() {
+        return mapToResponses(jobRepository.findAll());
     }
 
     public JobResponse saveJob(JobCreateRequest request) {
@@ -71,7 +79,7 @@ public class JobService {
     }
 
     public void deleteJobById(Long id) {
-        getJobById(id);
+        findJobById(id);
         jobRepository.deleteById(id);
     }
 }
