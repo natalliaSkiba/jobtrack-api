@@ -1,5 +1,6 @@
 package com.natallia.jobtrack_api.controller;
 
+import com.natallia.jobtrack_api.dto.CompanyResponse;
 import com.natallia.jobtrack_api.model.Company;
 import com.natallia.jobtrack_api.service.CompanyService;
 import jakarta.validation.Valid;
@@ -17,22 +18,22 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Company> getCompanyById(@PathVariable Long id) {
+    public ResponseEntity<CompanyResponse> getCompanyById(@PathVariable Long id) {
         return ResponseEntity.ok(companyService.getCompanyById(id));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Company>> getCompaniesByNameContainingIgnoreCase(@RequestParam String name){
+    public ResponseEntity<List<CompanyResponse>> getCompaniesByNameContainingIgnoreCase(@RequestParam String name){
         return ResponseEntity.ok(companyService.getCompaniesByNameContainingIgnoreCase(name));
     }
 
     @GetMapping
-    public ResponseEntity<List<Company>> getAllCompanies() {
+    public ResponseEntity<List<CompanyResponse>> getAllCompanies() {
         return ResponseEntity.ok(companyService.getAllCompanies());
     }
 
     @PostMapping
-    public ResponseEntity<Company> createCompany(@Valid @RequestBody Company company) {
+    public ResponseEntity<CompanyResponse> createCompany(@Valid @RequestBody Company company) {
         return ResponseEntity.status(HttpStatus.CREATED).body(companyService.saveCompany(company));
     }
 

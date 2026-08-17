@@ -54,8 +54,8 @@ public class JobService {
 
     public JobResponse saveJob(JobCreateRequest request) {
 
-        Position position = positionService.getPositionById(request.getPositionId());
-        Company company = companyService.getCompanyById(request.getCompanyId());
+        Position position = positionService.findPositionById(request.getPositionId());
+        Company company = companyService.findCompanyById(request.getCompanyId());
         Job job = Job.builder()
                 .position(position)
                 .company(company)

@@ -1,5 +1,6 @@
 package com.natallia.jobtrack_api.controller;
 
+import com.natallia.jobtrack_api.dto.PositionResponse;
 import com.natallia.jobtrack_api.model.Position;
 import com.natallia.jobtrack_api.service.PositionService;
 import jakarta.validation.Valid;
@@ -17,22 +18,22 @@ public class PositionController {
     private final PositionService positionService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Position> getPositionById(@PathVariable Long id) {
+    public ResponseEntity<PositionResponse> getPositionById(@PathVariable Long id) {
         return ResponseEntity.ok(positionService.getPositionById(id));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Position>> getPositionsByNameContainingIgnoreCase(@RequestParam String titleName){
+    public ResponseEntity<List<PositionResponse>> getPositionsByNameContainingIgnoreCase(@RequestParam String titleName) {
         return ResponseEntity.ok(positionService.getPositionsByNameContainingIgnoreCase(titleName));
     }
 
     @GetMapping
-    public ResponseEntity<List<Position>> getAllPositions() {
+    public ResponseEntity<List<PositionResponse>> getAllPositions() {
         return ResponseEntity.ok(positionService.getAllPositions());
     }
 
     @PostMapping()
-    public ResponseEntity<Position> createPosition(@Valid @RequestBody Position position) {
+    public ResponseEntity<PositionResponse> createPosition(@Valid @RequestBody Position position) {
         return ResponseEntity.status(HttpStatus.CREATED).body(positionService.savePosition(position));
     }
 
