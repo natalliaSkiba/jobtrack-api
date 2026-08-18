@@ -2,6 +2,7 @@ package com.natallia.jobtrack_api.service;
 
 import com.natallia.jobtrack_api.dto.JobCreateRequest;
 import com.natallia.jobtrack_api.dto.JobResponse;
+import com.natallia.jobtrack_api.dto.JobStatusUpdateRequest;
 import com.natallia.jobtrack_api.exception.InvalidSalaryRangeException;
 import com.natallia.jobtrack_api.exception.ResourceNotFoundException;
 import com.natallia.jobtrack_api.mapper.JobMapper;
@@ -81,5 +82,11 @@ public class JobService {
     public void deleteJobById(Long id) {
         findJobById(id);
         jobRepository.deleteById(id);
+    }
+
+    public JobResponse updateJobStatus(Long id, JobStatusUpdateRequest request){
+        Job job = findJobById(id);
+        job.setStatus(request.getStatus());
+        return jobMapper.toResponse(jobRepository.save(job));
     }
 }

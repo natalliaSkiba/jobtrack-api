@@ -2,9 +2,12 @@ package com.natallia.jobtrack_api.controller;
 
 import com.natallia.jobtrack_api.dto.JobCreateRequest;
 import com.natallia.jobtrack_api.dto.JobResponse;
+import com.natallia.jobtrack_api.dto.JobStatusUpdateRequest;
+import com.natallia.jobtrack_api.model.ApplicationStatus;
 import com.natallia.jobtrack_api.model.Job;
 import com.natallia.jobtrack_api.service.JobService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 @RequestMapping("/api/jobs")
 public class JobController {
@@ -52,5 +56,12 @@ public class JobController {
     public ResponseEntity<Void> deleteJobById(@PathVariable Long id){
         jobService.deleteJobById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<JobResponse> updateStatus(@PathVariable Long id,
+                                                    @Valid
+                                                    @RequestBody JobStatusUpdateRequest request){
+        return ResponseEntity.status(HttpStatus.OK).body(jobService.updateJobStatus(id,request));
     }
 }
